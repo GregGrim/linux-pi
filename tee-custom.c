@@ -4,15 +4,11 @@
         -a : append input to existing files
 */
 
-#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
-#include <sys/stat.h>
-#include <sys/types.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <errno.h>
+#include <sys/stat.h>
 
 
 #define BUFFER_SIZE 1024
@@ -32,7 +28,7 @@ int main (int argc, char* argv[]) {
         ofs = 1;
     }
 
-    //printf("ofs: %d", strcmp(argv[1], "-a"));
+    // printf("ofs: %d", strcmp(argv[1], "-a"));
 
     while(1) {
         
@@ -43,8 +39,6 @@ int main (int argc, char* argv[]) {
             fprintf(stderr, "Failed to read().\n");
             return 1;
         }
-
-        //buf[bytes_received] = '\0';
 
         printf("%s", buf);
 
@@ -57,7 +51,6 @@ int main (int argc, char* argv[]) {
                 fd = open(argv[i], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
             }
             
-
             if (!fd) {
                 fprintf(stderr, "Failed to open().\n");
                 return 1;
