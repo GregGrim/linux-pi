@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 
 #define BUFFER_SIZE 1024
@@ -51,13 +52,13 @@ int main (int argc, char* argv[]) {
                 fd = open(argv[i], O_WRONLY | O_TRUNC | O_CREAT, S_IRUSR | S_IWUSR);
             }
             
-            if (!fd) {
-                fprintf(stderr, "Failed to open().\n");
+            if (fd == -1) {
+                fprintf(stderr, "Failed to open(). %s\n", strerror(errno));
                 return 1;
             }
 
-            if (!write(fd, buf, strlen(buf))) {
-                fprintf(stderr, "Failed to write().\n");
+            if (write(fd, buf, strlen(buf)) <= 0) {
+                fprintf(stderr, "Failed to write(). %s\n", strerror(errno));
                 return 1;
             }
 
